@@ -29,6 +29,7 @@ export default {
       getOrders: GIFT_LOV_URL_ENDPOINTS.GET_ORDERS,
       placeOrder: GIFT_LOV_URL_ENDPOINTS.PLACE_ORDER,
       generateSingleUseUrl: GIFT_LOV_URL_ENDPOINTS.GENERATE_SINGLE_USE_URL,
+      priceAndValidateOrder: GIFT_LOV_URL_ENDPOINTS.PRICE_AND_VALIDATE_ORDER,
     },
   },
 };

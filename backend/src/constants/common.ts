@@ -55,4 +55,5 @@ export enum GIFT_LOV_URL_ENDPOINTS {
   GET_ORDERS = "orders",
   PLACE_ORDER = "placeOrder",
   GENERATE_SINGLE_USE_URL = "generateSingleUseURL",
+  PRICE_AND_VALIDATE_ORDER = "priceAndValidateOrder",
 }

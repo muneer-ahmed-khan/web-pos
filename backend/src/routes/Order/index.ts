@@ -15,6 +15,10 @@ orderRouter.post("/generate-url", async (req, res, next) => {
   await OrderController.generateSingleUseUrl(req, res, next);
 });
 
+orderRouter.post("/price-validate", async (req, res, next) => {
+  await OrderController.priceAndValidateOrder(req, res, next);
+});
+
 orderRouter.post("/place-order", async (req, res, next) => {
   await OrderController.placeOrder(req, res, next);
 });
