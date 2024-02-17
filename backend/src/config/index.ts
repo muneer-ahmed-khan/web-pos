@@ -25,5 +25,8 @@ export default {
     Catalogue: {
       items: GIFT_LOV_URL_ENDPOINTS.ITEMS,
     },
+    Order: {
+      placeOrder: GIFT_LOV_URL_ENDPOINTS.PLACE_ORDER,
+    },
   },
 };
