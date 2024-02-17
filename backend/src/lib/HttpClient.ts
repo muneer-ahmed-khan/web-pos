@@ -9,11 +9,11 @@ class HttpClient {
       baseURL: config.giftLovUrls.BaseUrl,
     });
   }
-  public async get(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse> {
-    return this.axios.get(url, config);
+  public async get({
+    url,
+    ...config
+  }: AxiosRequestConfig): Promise<AxiosResponse> {
+    return (await this.axios.get(url, config)).data;
   }
 
   public async post({
@@ -21,9 +21,7 @@ class HttpClient {
     data,
     ...config
   }: AxiosRequestConfig): Promise<AxiosResponse> {
-    // console.log("check bro problem ", url, data, config);
-
-    return this.axios.post(url, data, config);
+    return (await this.axios.post(url, data, config)).data;
   }
 
   public async put(

@@ -51,4 +51,5 @@ export enum ApiContentType {
 export enum GIFT_LOV_URL_ENDPOINTS {
   GENERATE_TOKEN = "generateToken",
   CHECK_TOKEN = "checkToken",
+  ITEMS = "items",
 }

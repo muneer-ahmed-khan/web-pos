@@ -29,7 +29,7 @@ class AuthController {
         return;
       }
 
-      const response = await HttpClient.post({
+      const data = await HttpClient.post({
         url: config.giftLovUrls.Auth.generateToken,
         data: { username, password },
         headers: {
@@ -41,7 +41,7 @@ class AuthController {
         },
       });
 
-      res.status(HTTP_STATUS.OK).json(response.data);
+      res.status(HTTP_STATUS.OK).json({ ...data });
     } catch (err) {
       const axiosError = err as AxiosError;
 
@@ -78,7 +78,7 @@ class AuthController {
         requestMethod: RequestMethod.POST,
       });
 
-      const response = await HttpClient.post({
+      const data = await HttpClient.post({
         url: config.giftLovUrls.Auth.checkToken,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
@@ -89,10 +89,7 @@ class AuthController {
         },
       });
 
-      res.status(HTTP_STATUS.OK).json({
-        message: "Token verified",
-        response,
-      });
+      res.status(HTTP_STATUS.OK).json({ message: "Token verified", ...data });
     } catch (err) {
       const axiosError = err as AxiosError;
 

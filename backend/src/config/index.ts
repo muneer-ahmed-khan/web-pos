@@ -22,5 +22,8 @@ export default {
       generateToken: GIFT_LOV_URL_ENDPOINTS.GENERATE_TOKEN,
       checkToken: GIFT_LOV_URL_ENDPOINTS.CHECK_TOKEN,
     },
+    Catalogue: {
+      items: GIFT_LOV_URL_ENDPOINTS.ITEMS,
+    },
   },
 };
