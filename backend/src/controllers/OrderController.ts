@@ -67,6 +67,57 @@ class OrderController {
     }
   }
 
+  public async getOrderStatus(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { authorization: token } = req.headers;
+      const { identifier } = req.params;
+
+      if (!token) {
+        res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .json({ error: "token is missing!" });
+        return;
+      }
+
+      const [timestamp, signature] = await generateSignature({
+        currentUrl: `${config.giftLovUrls.Order.getOrders}/${identifier}`,
+        authToken: token as string,
+        requestMethod: RequestMethod.GET,
+      });
+
+      const data = await HttpClient.get({
+        url: `${config.giftLovUrls.Order.getOrders}/${identifier}`,
+        headers: {
+          [RequestHeader.GIFT_LOV_DATE]: timestamp,
+          [RequestHeader.ACCEPT]: ApiContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.SIGNATURE]: signature,
+          [RequestHeader.AUTHORIZATION]: token,
+        },
+      });
+
+      res.status(HTTP_STATUS.OK).json({
+        ...data,
+      });
+    } catch (err) {
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response) {
+        console.error("Error in Axios response", axiosError.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
+      } else {
+        console.error("Error in Axios request", axiosError.message);
+        res
+          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+          .json({ error: "Internal server error" });
+      }
+    }
+  }
+
   public async placeOrder(
     req: Request,
     res: Response,
