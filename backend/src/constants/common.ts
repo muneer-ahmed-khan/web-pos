@@ -52,5 +52,6 @@ export enum GIFT_LOV_URL_ENDPOINTS {
   GENERATE_TOKEN = "generateToken",
   CHECK_TOKEN = "checkToken",
   ITEMS = "items",
+  GET_ORDERS = "orders",
   PLACE_ORDER = "placeOrder",
 }

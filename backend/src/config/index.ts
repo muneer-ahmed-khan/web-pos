@@ -26,6 +26,7 @@ export default {
       items: GIFT_LOV_URL_ENDPOINTS.ITEMS,
     },
     Order: {
+      getOrders: GIFT_LOV_URL_ENDPOINTS.GET_ORDERS,
       placeOrder: GIFT_LOV_URL_ENDPOINTS.PLACE_ORDER,
     },
   },

@@ -3,6 +3,10 @@ import OrderController from "../../controllers/OrderController";
 
 const orderRouter = Router();
 
+orderRouter.get("/orders", async (req, res, next) => {
+  await OrderController.getOrders(req, res, next);
+});
+
 orderRouter.post("/place-order", async (req, res, next) => {
   await OrderController.placeOrder(req, res, next);
 });
