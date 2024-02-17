@@ -1,28 +1,30 @@
 const crypto = require("crypto");
-import { Body, Query } from "./types/signature";
+import { GenerateSignatureParams } from "./types/signature";
+import { giftLovTimeStampFormat } from "./giftLovTimeStampFormat";
+import config from "../config/index";
 
-export function generateSignature(
-  currentUrl: string,
-  requestMethod: string,
-  queryParams: Query,
-  body: Body,
-  timestamp: string,
-  authToken: string
-): string {
+export const generateSignature = async ({
+  currentUrl,
+  requestMethod,
+  queryParams = {},
+  body = {},
+  authToken,
+}: GenerateSignatureParams): Promise<[string, string]> => {
   const sortedQueryParams = Object.values(queryParams).sort().join("");
   const sortedBody = body ? Object.values(body).sort().join("") : null;
 
   const parameters = [sortedBody, sortedQueryParams].sort().join("");
+  const timestamp = await giftLovTimeStampFormat(config.app.currentTimezone);
 
   const signatureString = `${currentUrl}${requestMethod}${parameters}${timestamp}${authToken}`;
 
   // Get secret from environment variables
-  const secret = process.env.SECRET_KEY;
+  const secret = config.app.secret;
 
-  const signature = crypto
+  const signature: string = crypto
     .createHmac("sha512", secret)
     .update(signatureString)
     .digest("hex");
 
-  return signature;
-}
+  return [timestamp, signature];
+};

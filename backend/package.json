@@ -17,7 +17,6 @@
     "@types/helmet": "^4.0.0",
     "@types/node": "^20.5.9",
     "@types/pg": "^8.11.0",
-    "@types/pino": "^7.0.5",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",

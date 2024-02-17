@@ -16,11 +16,11 @@ class HttpClient {
     return this.axios.get(url, config);
   }
 
-  public async post(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse> {
+  public async post({
+    url,
+    data,
+    ...config
+  }: AxiosRequestConfig): Promise<AxiosResponse> {
     // console.log("check bro problem ", url, data, config);
 
     return this.axios.post(url, data, config);

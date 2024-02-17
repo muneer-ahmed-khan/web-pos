@@ -1,6 +1,8 @@
 import moment from "moment";
 
-export const giftLovTimeStampFormat = (timezone: number): string => {
+export const giftLovTimeStampFormat = async (
+  timezone: number
+): Promise<string> => {
   const currentDateTime = moment();
 
   // adjust the timezone offset

@@ -1,11 +1,9 @@
 import { Router } from "express";
-import AuthController from "../controllers/AuthContorller";
-import { generateSignature } from "../utils/generateSignature";
+import authRouter from "./Auth";
+import { requestLogger } from "../middlewares/requestLogger";
 
 const router = Router();
 
-router.post("/login", async (req, res, next) => {
-  await AuthController.login(req, res, next);
-});
+router.use("", requestLogger, authRouter);
 
 export default router;
