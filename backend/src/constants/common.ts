@@ -10,3 +10,35 @@ export enum HTTP_STATUS {
   INTERNAL_SERVER_ERROR = 500,
   SERVICE_UNAVAILABLE = 503,
 }
+
+export enum RequestMethod {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  PATCH = "PATCH",
+  DELETE = "DELETE",
+  OPTIONS = "OPTIONS",
+  HEAD = "HEAD",
+}
+
+export enum RequestHeader {
+  ACCEPT = "Accept",
+  CONTENT_TYPE = "Content-Type",
+  AUTHORIZATION = "Authorization",
+  USER_AGENT = "User-Agent",
+  CONTENT_LENGTH = "Content-Length",
+  CACHE_CONTROL = "Cache-Control",
+  COOKIE = "Cookie",
+  SET_COOKIE = "Set-Cookie",
+  X_REQUESTED_WITH = "X-Requested-With",
+  X_CSRF_TOKEN = "X-Csrf-Token",
+  IF_MATCH = "If-Match",
+  IF_NONE_MATCH = "If-None-Match",
+  GIFT_LOV_DATE = "X-GIFTLOV-DATE",
+  SIGNATURE = "signature",
+}
+
+export enum GIFT_LOV_URL_ENDPOINTS {
+  GENERATE_TOKEN = "generateToken",
+  CHECK_TOKEN = "checkToken",
+}
