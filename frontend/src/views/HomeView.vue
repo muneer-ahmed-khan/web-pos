@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="flex justify-center items-center h-screen">
+    your are logged in now
+  </div>
 </template>
+
+<style scoped></style>

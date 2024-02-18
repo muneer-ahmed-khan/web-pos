@@ -1,5 +1,6 @@
 import { Express, NextFunction, Request, Response } from "express";
 import express from "express";
+import cors from "cors";
 import * as bodyParser from "body-parser";
 import config from "../config";
 import router from "../routes";
@@ -14,6 +15,7 @@ class App {
   public async init() {
     this.app.use(bodyParser.json({ limit: "20mb" }));
     this.app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+    this.app.use(cors());
 
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       //Before middleware
