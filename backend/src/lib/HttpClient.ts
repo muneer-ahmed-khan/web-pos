@@ -6,9 +6,10 @@ class HttpClient {
 
   constructor() {
     this.axios = Axios.create({
-      baseURL: config.giftLovUrls.BaseUrl,
+      baseURL: config.giftLov.baseUrl,
     });
   }
+
   public async get({
     url,
     ...config

@@ -38,7 +38,7 @@ export enum RequestHeader {
   SIGNATURE = "signature",
 }
 
-export enum ApiContentType {
+export enum ContentType {
   JSON = "application/json",
   XML = "application/xml",
   FORM_URLENCODED = "application/x-www-form-urlencoded",
@@ -46,14 +46,4 @@ export enum ApiContentType {
   PLAIN_TEXT = "text/plain",
   MULTIPART_FORM_DATA = "multipart/form-data",
   OCTET_STREAM = "application/octet-stream",
-}
-
-export enum GIFT_LOV_URL_ENDPOINTS {
-  GENERATE_TOKEN = "generateToken",
-  CHECK_TOKEN = "checkToken",
-  ITEMS = "items",
-  GET_ORDERS = "orders",
-  PLACE_ORDER = "placeOrder",
-  GENERATE_SINGLE_USE_URL = "generateSingleUseURL",
-  PRICE_AND_VALIDATE_ORDER = "priceAndValidateOrder",
 }

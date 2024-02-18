@@ -3,23 +3,23 @@ import { GenerateSignatureParams } from "./types/signature";
 import { giftLovTimeStampFormat } from "./giftLovTimeStampFormat";
 import config from "../config/index";
 
-// Extract all primitive values from the object
-function extractPrimitiveValues(obj: any) {
-  const values = [];
+function flattenAndSortObject(obj) {
+  const result = [];
 
-  function extract(obj) {
-    for (const key in obj) {
-      const value = obj[key];
-      if (typeof value === "object") {
-        extract(value);
-      } else if (typeof value !== "function") {
-        values.push(String(value));
+  function flattenHelper(item) {
+    if (typeof item === "object" && item !== null) {
+      if (Array.isArray(item)) {
+        item.forEach(flattenHelper);
+      } else {
+        Object.values(item).forEach(flattenHelper);
       }
+    } else {
+      result.push(String(item));
     }
   }
 
-  extract(obj);
-  return values;
+  flattenHelper(obj);
+  return result.sort((a, b) => String(a).localeCompare(String(b)));
 }
 
 export const generateSignature = async ({
@@ -31,7 +31,8 @@ export const generateSignature = async ({
 }: GenerateSignatureParams): Promise<[string, string]> => {
   const sortedQueryParams = Object.values(queryParams).sort().join("");
 
-  body = extractPrimitiveValues(body);
+  body = flattenAndSortObject(body);
+
   const sortedBody = body ? Object.values(body).sort().join("") : null;
 
   const parameters = [sortedBody, sortedQueryParams].sort().join("");
@@ -39,8 +40,7 @@ export const generateSignature = async ({
 
   const signatureString = `${currentUrl}${requestMethod}${parameters}${timestamp}${authToken}`;
 
-  // Get secret from environment variables
-  const secret = config.app.secret;
+  const secret = config.giftLov.secret;
 
   const signature: string = crypto
     .createHmac("sha512", secret)

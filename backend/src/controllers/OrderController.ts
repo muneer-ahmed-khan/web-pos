@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { AxiosError } from "axios";
 import { generateSignature } from "../utils/generateSignature";
-const querystring = require("querystring");
 import {
-  ApiContentType,
+  ContentType,
   HTTP_STATUS,
   RequestHeader,
   RequestMethod,
 } from "../constants/common";
 import HttpClient from "../lib/HttpClient";
-import config from "../config";
+import querystring from "querystring";
+import { GiftLovAPI } from "../constants/giftlov";
 
 class OrderController {
   constructor() {}
@@ -30,20 +30,19 @@ class OrderController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Order.getOrders,
+        currentUrl: GiftLovAPI.GET_ORDERS,
         authToken: token as string,
         requestMethod: RequestMethod.GET,
         queryParams: req.query,
       });
 
       const data = await HttpClient.get({
-        url: `${config.giftLovUrls.Order.getOrders}?${querystring.stringify(
-          req.query
-        )} `,
+        url: `${GiftLovAPI.GET_ORDERS}`,
+        data: req.query,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -84,17 +83,17 @@ class OrderController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: `${config.giftLovUrls.Order.getOrders}/${identifier}`,
+        currentUrl: `${GiftLovAPI.GET_ORDERS}/${identifier}`,
         authToken: token as string,
         requestMethod: RequestMethod.GET,
       });
 
       const data = await HttpClient.get({
-        url: `${config.giftLovUrls.Order.getOrders}/${identifier}`,
+        url: `${GiftLovAPI.GET_ORDERS}/${identifier}`,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -134,19 +133,19 @@ class OrderController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Order.generateSingleUseUrl,
+        currentUrl: GiftLovAPI.GENERATE_SINGLE_USE_URL,
         authToken: token as string,
         requestMethod: RequestMethod.POST,
         body: req.body,
       });
 
       const data = await HttpClient.post({
-        url: config.giftLovUrls.Order.generateSingleUseUrl,
+        url: GiftLovAPI.GENERATE_SINGLE_USE_URL,
         data: req.body,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -156,17 +155,19 @@ class OrderController {
         ...data,
       });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(
+        `Error in ${OrderController.name}::${this.generateSingleUseUrl.name}`,
+        err
+      );
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 
@@ -186,19 +187,19 @@ class OrderController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Order.priceAndValidateOrder,
+        currentUrl: GiftLovAPI.PRICE_AND_VALIDATE_ORDER,
         authToken: token as string,
         requestMethod: RequestMethod.POST,
         body: req.body,
       });
 
       const data = await HttpClient.post({
-        url: config.giftLovUrls.Order.priceAndValidateOrder,
+        url: GiftLovAPI.PRICE_AND_VALIDATE_ORDER,
         data: req.body,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -208,17 +209,19 @@ class OrderController {
         ...data,
       });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(
+        `Error in ${OrderController.name}::${this.priceAndValidateOrder.name}`,
+        err
+      );
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 
@@ -238,19 +241,19 @@ class OrderController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Order.placeOrder,
+        currentUrl: GiftLovAPI.PLACE_ORDER,
         authToken: token as string,
-        requestMethod: RequestMethod.GET,
+        requestMethod: RequestMethod.POST,
         body: req.body,
       });
 
       const data = await HttpClient.post({
-        url: config.giftLovUrls.Order.placeOrder,
+        url: GiftLovAPI.PLACE_ORDER,
         data: req.body,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -260,17 +263,19 @@ class OrderController {
         ...data,
       });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(
+        `Error in ${OrderController.name}::${this.placeOrder.name}`,
+        err
+      );
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 }

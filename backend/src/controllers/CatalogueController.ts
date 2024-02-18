@@ -1,15 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { AxiosError } from "axios";
 import { generateSignature } from "../utils/generateSignature";
 const querystring = require("querystring");
 import {
-  ApiContentType,
+  ContentType,
   HTTP_STATUS,
   RequestHeader,
   RequestMethod,
 } from "../constants/common";
 import HttpClient from "../lib/HttpClient";
-import config from "../config";
+import { GiftLovAPI } from "../constants/giftlov";
 
 class CatalogueController {
   constructor() {}
@@ -37,20 +36,20 @@ class CatalogueController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Catalogue.items,
+        currentUrl: GiftLovAPI.CATALOGUE_ITEMS,
         authToken: token as string,
         requestMethod: RequestMethod.GET,
         queryParams,
       });
 
       const data = await HttpClient.get({
-        url: `${config.giftLovUrls.Catalogue.items}?${querystring.stringify(
+        url: `${GiftLovAPI.CATALOGUE_ITEMS}?${querystring.stringify(
           queryParams
         )} `,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -60,17 +59,19 @@ class CatalogueController {
         ...data,
       });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(
+        `Error in ${CatalogueController.name}::${this.items.name}`,
+        err
+      );
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 }

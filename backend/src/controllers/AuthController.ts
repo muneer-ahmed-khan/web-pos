@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import { AxiosError } from "axios";
 import { giftLovTimeStampFormat } from "../utils/giftLovTimeStampFormat";
 import { generateSignature } from "../utils/generateSignature";
 import {
-  ApiContentType,
+  ContentType,
   HTTP_STATUS,
   RequestHeader,
   RequestMethod,
 } from "../constants/common";
 import HttpClient from "../lib/HttpClient";
 import config from "../config";
+import { GiftLovAPI } from "../constants/giftlov";
 
 class AuthController {
   constructor() {}
@@ -30,30 +30,29 @@ class AuthController {
       }
 
       const data = await HttpClient.post({
-        url: config.giftLovUrls.Auth.generateToken,
+        url: GiftLovAPI.GENERATE_TOKEN,
         data: { username, password },
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: await giftLovTimeStampFormat(
             config.app.currentTimezone
           ),
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
         },
       });
 
       res.status(HTTP_STATUS.OK).json({ ...data });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(`Error in ${AuthController.name}::${this.login.name}`, err);
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 
@@ -73,17 +72,17 @@ class AuthController {
       }
 
       const [timestamp, signature] = await generateSignature({
-        currentUrl: config.giftLovUrls.Auth.checkToken,
+        currentUrl: GiftLovAPI.CHECK_TOKEN,
         authToken: token,
         requestMethod: RequestMethod.POST,
       });
 
       const data = await HttpClient.post({
-        url: config.giftLovUrls.Auth.checkToken,
+        url: GiftLovAPI.CHECK_TOKEN,
         headers: {
           [RequestHeader.GIFT_LOV_DATE]: timestamp,
-          [RequestHeader.ACCEPT]: ApiContentType.JSON,
-          [RequestHeader.CONTENT_TYPE]: ApiContentType.JSON,
+          [RequestHeader.ACCEPT]: ContentType.JSON,
+          [RequestHeader.CONTENT_TYPE]: ContentType.JSON,
           [RequestHeader.SIGNATURE]: signature,
           [RequestHeader.AUTHORIZATION]: token,
         },
@@ -91,17 +90,19 @@ class AuthController {
 
       res.status(HTTP_STATUS.OK).json({ message: "Token verified", ...data });
     } catch (err) {
-      const axiosError = err as AxiosError;
+      console.log(
+        `Error in ${AuthController.name}::${this.verifyToken.name}`,
+        err
+      );
 
-      if (axiosError.response) {
-        console.error("Error in Axios response", axiosError.response.data);
-        res.status(HTTP_STATUS.UNAUTHENTICATED).json(axiosError.response.data);
-      } else {
-        console.error("Error in Axios request", axiosError.message);
-        res
-          .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-          .json({ error: "Internal server error" });
+      if (err.response) {
+        console.error("Error in Axios response", err.response.data);
+        res.status(HTTP_STATUS.UNAUTHENTICATED).json(err.response.data);
+
+        return;
       }
+
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(err.response.data);
     }
   }
 }

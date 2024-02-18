@@ -1,4 +1,3 @@
-import { GIFT_LOV_URL_ENDPOINTS } from "../constants/common";
 import { getEnv } from "../helpers/common";
 
 export default {
@@ -6,7 +5,7 @@ export default {
     port: getEnv("APP_PORT"),
     name: getEnv("APP_NAME", "App Name"),
     environment: getEnv("NODE_ENV", "local"),
-    secret: getEnv("SECRET"),
+    secret: getEnv("GIFTLOV_SECRET"),
     currentTimezone: getEnv("CURRENT_TIMEZONE", 0),
   },
   database: {
@@ -16,20 +15,8 @@ export default {
     password: getEnv("DB_PASSWORD"),
     port: Number(getEnv("DB_PORT")),
   },
-  giftLovUrls: {
-    BaseUrl: getEnv("BASE_URL"),
-    Auth: {
-      generateToken: GIFT_LOV_URL_ENDPOINTS.GENERATE_TOKEN,
-      checkToken: GIFT_LOV_URL_ENDPOINTS.CHECK_TOKEN,
-    },
-    Catalogue: {
-      items: GIFT_LOV_URL_ENDPOINTS.ITEMS,
-    },
-    Order: {
-      getOrders: GIFT_LOV_URL_ENDPOINTS.GET_ORDERS,
-      placeOrder: GIFT_LOV_URL_ENDPOINTS.PLACE_ORDER,
-      generateSingleUseUrl: GIFT_LOV_URL_ENDPOINTS.GENERATE_SINGLE_USE_URL,
-      priceAndValidateOrder: GIFT_LOV_URL_ENDPOINTS.PRICE_AND_VALIDATE_ORDER,
-    },
+  giftLov: {
+    baseUrl: getEnv("GIFTLOV_BASE_URL"),
+    secret: getEnv("GIFTLOV_SECRET"),
   },
 };
