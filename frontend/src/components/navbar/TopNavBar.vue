@@ -16,21 +16,11 @@ function toggleDrawer() {
   store.drawer = !store.drawer;
 }
 
-function toggleMenu() {
-  menuOpen.value = !menuOpen.value;
-}
-
-function closeMenu() {
-  menuOpen.value = false;
-}
-
-function goToDashboard() {
-  router.push("/");
-}
-
 function logout() {
   removeLocal("tokenData");
   router.push("/login");
+
+  store.isLoggedIn = false;
 }
 </script>
 
@@ -50,30 +40,29 @@ function logout() {
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <div v-if="!mobile && store.isLoggedIn" class="flex justify-center">
-      <NavbarItem />
-    </div>
+
     <div class="flex items-center">
-      <!-- <ThemeButton /> -->
-      <div class="relative ml-2">
-        <button @click="toggleMenu" class="p-2">
-          <i class="fas fa-user"></i>
+      <div v-if="!mobile && store.isLoggedIn" class="flex items-end mr-4">
+        <NavbarItem />
+      </div>
+
+      <div class="relative" v-if="store.isLoggedIn">
+        <button @click="logout" class="p-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
+          </svg>
         </button>
-        <div
-          v-show="menuOpen"
-          class="absolute top-8 right-0 bg-white shadow-md"
-        >
-          <ul>
-            <li>
-              <button
-                @click="logout"
-                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
   </header>

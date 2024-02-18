@@ -30,7 +30,7 @@ function navigateTo(path: string) {
 <template>
   <template v-for="view in viewsLinks" :key="view.id">
     <button
-      class="mx-4 text-gray-700 hover:text-gray-900 focus:outline-none"
+      class="mx-4 text-gray-700 hover:text-gray-900 focus:outline-none text-xl"
       @click="navigateTo(view.path)"
     >
       {{ view.name }}
