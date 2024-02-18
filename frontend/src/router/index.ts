@@ -25,8 +25,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    authGuard(to, from, next);
+    // Check if the route requires authentication
+    authGuard(to, from, next); // Call your auth guard function
+  } else if (!to.meta.requiresAuth && to.name !== "login") {
+    // Redirect to login page if the route doesn't require authentication
+    // and it's not the login page itself
+    next("/login");
   } else {
+    // Continue navigation for other cases
     next();
   }
 });

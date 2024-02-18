@@ -1,88 +1,94 @@
 <script setup lang="ts">
 import { useStore } from "@/stores";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { useLocalStorage } from "@/composable/useLocalStorage";
 
+const { removeLocal } = useLocalStorage();
 const store = useStore();
-const mobile = false;
+const router = useRouter();
+
+const state = reactive({
+  isMobile: window.innerWidth <= 640, // Set your mobile breakpoint here
+});
+
+window.addEventListener("resize", () => {
+  state.isMobile = window.innerWidth <= 640;
+});
+
+function toggleDrawer() {
+  store.drawer = !store.drawer;
+}
+
+function logout() {
+  store.drawer = !store.drawer;
+  removeLocal("tokenData");
+  router.push("/login");
+}
 </script>
 
 <template>
-  <div v-if="mobile" class="fixed inset-0 flex z-50">
-    <div class="fixed inset-0">
-      <transition
-        enter-active-class="transition-opacity ease-linear duration-300"
-        leave-active-class="transition-opacity ease-linear duration-300"
-      >
-        <div
-          class="absolute inset-0 bg-gray-600 opacity-75"
-          @click="store.drawer = false"
-        ></div>
-      </transition>
-    </div>
-    <div class="relative flex-1 flex flex-col max-w-xs w-full bg-white">
-      <div class="absolute top-0 right-0 -mr-14 p-1">
-        <button
-          @click="store.drawer = false"
-          class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600"
-        >
+  <transition name="slide">
+    <div
+      v-if="state.isMobile"
+      class="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50 flex items-center justify-center"
+      v-show="store.drawer"
+    >
+      <div class="sidebar">
+        <!-- Sidebar content -->
+        <div class="bg-white w-80 p-6 rounded-lg shadow-lg">
           <svg
-            class="h-6 w-6 text-gray-600"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="w-6 h-6 text-black cursor-auto"
+            @click="toggleDrawer"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
+              fill-rule="evenodd"
+              d="M8.293 3.293a1 1 0 011.414 1.414L4.414 10l5.293 5.293a1 1 0 01-1.414 1.414l-6-6a1 1 0 010-1.414l6-6a1 1 0 010 1.414z"
+              clip-rule="evenodd"
+            />
           </svg>
-          <span class="sr-only">Close sidebar</span>
-        </button>
-      </div>
-      <div
-        class="flex items-center justify-center h-16 bg-gray-100 border-b border-gray-200"
-      >
-        <div class="flex items-center">
-          <div
-            class="h-10 w-10 bg-gray-300 rounded-full flex items-center justify-center"
-          >
-            <i class="fas fa-user text-gray-600"></i>
+
+          <ul class="navigation-links">
+            <li><router-link to="/catalogue">Catalogue</router-link></li>
+            <li><router-link to="/orders">Orders</router-link></li>
+            <li><router-link to="/ordering">New Order</router-link></li>
+          </ul>
+
+          <div class="logout-button mt-4">
+            <button
+              @click="logout"
+              class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
-      <div class="flex-1 h-0 overflow-y-auto">
-        <nav class="mt-5 px-2 space-y-1">
-          <router-link
-            to="/catalogue"
-            class="group flex items-center px-2 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-          >
-            <span class="truncate">Catalogue</span>
-          </router-link>
-          <router-link
-            to="/orders"
-            class="group flex items-center px-2 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-          >
-            <span class="truncate">Orders</span>
-          </router-link>
-          <router-link
-            to="/ordering"
-            class="group flex items-center px-2 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-          >
-            <span class="truncate">New Order</span>
-          </router-link>
-        </nav>
-      </div>
-      <div class="border-t border-gray-200 py-4">
-        <button
-          @click=""
-          class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-        >
-          Logout
-        </button>
-      </div>
     </div>
-  </div>
+  </transition>
 </template>
+
+<style scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 300px; /* Adjust as needed */
+  background-color: #fff;
+  z-index: 1000;
+}
+</style>

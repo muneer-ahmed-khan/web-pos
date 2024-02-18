@@ -1,8 +1,11 @@
 import { useTokenManager } from "@/composable/useTokenManager";
 import type { NavigationGuard } from "vue-router";
 import moment from "moment";
+import { useStore } from "@/stores";
 
 export const authGuard: NavigationGuard = async (to, from, next) => {
+  let store = useStore();
+
   const { getToken } = useTokenManager();
 
   try {
@@ -15,6 +18,7 @@ export const authGuard: NavigationGuard = async (to, from, next) => {
       if (moment().isSameOrAfter(expiryDate)) {
         next("/login");
       } else {
+        store.isLoggedIn = true;
         next();
       }
     } else {
