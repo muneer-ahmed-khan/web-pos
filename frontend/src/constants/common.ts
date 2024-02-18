@@ -48,4 +48,5 @@ export enum ApiContentType {
 
 export enum ApiEndpoints {
   AUTH_LOGIN = "/auth/login",
+  CATALOGUE_ITEMS = "/catalogue/items",
 }

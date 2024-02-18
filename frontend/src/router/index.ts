@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router";
 import { authGuard } from "@/guards/authGuard";
 import LoginView from "@/views/LoginView.vue";
 import HomeView from "@/views/HomeView.vue";
+import CataloguePage from "@/views/CatalogueView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -15,6 +16,12 @@ const routes: RouteRecordRaw[] = [
     path: "/login",
     name: "login",
     component: LoginView,
+  },
+  {
+    path: "/catalogue",
+    name: "catalogue",
+    component: CataloguePage,
+    meta: { requiresAuth: true },
   },
 ];
 

@@ -9,5 +9,8 @@ export default {
     Auth: {
       login: ApiEndpoints.AUTH_LOGIN,
     },
+    CATALOGUE: {
+      items: ApiEndpoints.CATALOGUE_ITEMS,
+    },
   },
 };

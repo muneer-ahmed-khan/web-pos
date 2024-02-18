@@ -9,7 +9,7 @@ export function useLocalStorage() {
   }
 
   // get local storage item
-  function getLocal<T>(key: string): T | null {
+  function getLocal(key: string) {
     try {
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : null;

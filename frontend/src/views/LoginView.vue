@@ -27,7 +27,7 @@ const signIn = async () => {
       const { token, expireDate } = data;
 
       setToken({ token, expireDate });
-      router.push("/");
+      router.push("/catalogue");
     } else {
       error.value = true;
     }
