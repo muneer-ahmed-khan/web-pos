@@ -12,5 +12,8 @@ export default {
     CATALOGUE: {
       items: ApiEndpoints.CATALOGUE_ITEMS,
     },
+    Order: {
+      orders: ApiEndpoints.Order_Orders,
+    },
   },
 };

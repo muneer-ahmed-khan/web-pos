@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import { authGuard } from "@/guards/authGuard";
+
 import LoginView from "@/views/LoginView.vue";
 import HomeView from "@/views/HomeView.vue";
 import CataloguePage from "@/views/CatalogueView.vue";
+import OrderView from "@/views/OrdersView.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -21,6 +23,12 @@ const routes: RouteRecordRaw[] = [
     path: "/catalogue",
     name: "catalogue",
     component: CataloguePage,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/orders",
+    name: "order",
+    component: OrderView,
     meta: { requiresAuth: true },
   },
 ];
