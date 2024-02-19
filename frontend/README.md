@@ -1,40 +1,54 @@
-# frontend
+# WebPOS Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This repository contains the frontend code for the WebPOS (Web Point of Sale) application. The frontend is built using Vue 3 with TypeScript and Tailwind CSS and interacts with the backend APIs provided by the MUNERO Global API Documentation.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+The frontend provides a user interface to interact with the following backend APIs:
 
-## Type Support for `.vue` Imports in TS
+- **Authentication APIs**:
+  - Login API
+  - Check token
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- **Order APIs**:
+  - Get Orders
+  - Place Orders
+  - Get Order Status
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- **Catalogue APIs**:
+  - Items Download
+  - Catalog Images
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- **Account-related APIs**:
+  - Logo
+  - Query Users
 
-## Customize configuration
+## Setup Instructions
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1. Clone the repository:
+   ```
+   git clone https://github.com/muneer-ahmed-khan/web-pos/frontend.git
+   ```
 
-## Project Setup
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-```sh
-npm install
-```
+3. Customize the configuration if needed. See [Vite Configuration Reference](https://vitejs.dev/config/) for more details.
 
-### Compile and Hot-Reload for Development
+4. Compile and hot-reload for development:
+   ```
+   npm run dev
+   ```
 
-```sh
-npm run dev
-```
+5. Type-check, compile, and minify for production:
+   ```
+   npm run build
+   ```
 
-### Type-Check, Compile and Minify for Production
+## Contact
 
-```sh
-npm run build
-```
+If you have any questions or need assistance, feel free to reach out.
+
+**Kindest regards,** 
