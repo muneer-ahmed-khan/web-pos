@@ -47,6 +47,12 @@ The frontend provides a user interface to interact with the following backend AP
    npm run build
    ```
 
+## Environment Variables
+For development, you can specify the base URL for your backend APIs in the `.env.development` file:
+```env
+VITE_BASE_URL=http://localhost:4000
+```
+
 ## Contact
 
 If you have any questions or need assistance, feel free to reach out.
