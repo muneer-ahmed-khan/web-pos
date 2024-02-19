@@ -27,7 +27,7 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error("Response error:", error);
+    console.log("Response error:", error.message);
     return Promise.reject(error);
   }
 );

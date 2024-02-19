@@ -49,5 +49,6 @@ export enum ApiContentType {
 export enum ApiEndpoints {
   AUTH_LOGIN = "/auth/login",
   CATALOGUE_ITEMS = "/catalogue/items",
-  Order_Orders = "/order/orders",
+  ORDERS = "/order/orders",
+  PLACE_ORDERS = "/order/place-order",
 }

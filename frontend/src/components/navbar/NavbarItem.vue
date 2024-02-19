@@ -15,7 +15,7 @@ const viewsLinks = ref([
   },
   {
     id: "ordering",
-    name: "New Order",
+    name: "Place Order",
     path: "/ordering",
   },
 ]);

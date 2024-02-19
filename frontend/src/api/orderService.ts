@@ -40,8 +40,49 @@ export async function orders(): Promise<OrdersResponse> {
     });
 
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error order in:", error);
     throw new Error("failed to fetch orders");
+  }
+}
+
+export async function getOrder(id: string): Promise<OrdersResponse> {
+  const { getLocal } = useLocalStorage();
+
+  try {
+    const response = await axios.get(
+      config.apiEndPoints.Order.orders + "/" + id,
+      {
+        headers: {
+          Authorization: getLocal("tokenData").token,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error order in:", error);
+    throw new Error("failed to fetch orders");
+  }
+}
+
+export async function placeOrder(data: OrdersResponse): Promise<any> {
+  const { getLocal } = useLocalStorage();
+
+  try {
+    const response = await axios.post(
+      config.apiEndPoints.Order.placeOrder,
+      data,
+      {
+        headers: {
+          Authorization: getLocal("tokenData").token,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    // console.log("Error placeOrder service", error.message);
+    throw new Error("failed in placeOrder");
   }
 }

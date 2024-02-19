@@ -13,7 +13,8 @@ export default {
       items: ApiEndpoints.CATALOGUE_ITEMS,
     },
     Order: {
-      orders: ApiEndpoints.Order_Orders,
+      orders: ApiEndpoints.ORDERS,
+      placeOrder: ApiEndpoints.PLACE_ORDERS,
     },
   },
 };
