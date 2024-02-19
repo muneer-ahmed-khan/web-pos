@@ -25,15 +25,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="tw-my-20 mt-28">
-    <div v-if="loading" class="md:tw-p-10 flex flex-wrap justify-around">
+  <div class="mt-20 md:mt-28">
+    <div v-if="loading" class="flex flex-wrap justify-center p-5 md:p-10">
       <div
-        class="tw-my-3 tw-mx-2 md:tw-w-1/2 w-full bg-gray-200 rounded-lg p-5"
+        class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mx-2 my-3 bg-gray-200 rounded-lg p-5"
         v-for="index in 10"
         :key="index"
       ></div>
     </div>
-    <div v-else class="md:tw-pa-10 tw-p-5 flex flex-wrap justify-around">
+    <div v-else class="flex flex-wrap justify-center p-5 md:p-10">
       <Order v-for="order in orders" :key="order.id" :order="order" />
     </div>
   </div>

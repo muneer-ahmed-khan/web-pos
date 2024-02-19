@@ -51,38 +51,31 @@ const currency: string =
 </script>
 
 <template>
-  <div class="order-card-container bg-gray-100 shadow-md rounded-lg p-6 mb-28">
-    <div class="flex justify-between mb-4">
-      <div class="w-1/2">
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">
-          ORDER PLACED
-        </div>
-        <div class="text-lg md:text-xl text-gray-800">{{ orderPlaced }}</div>
+  <div
+    class="order-card-container bg-white shadow-lg rounded-lg p-6 mb-8 md:mb-28 w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 md:mx-2"
+  >
+    <div class="flex flex-col md:flex-row justify-between mb-4">
+      <div class="text-sm md:text-base text-gray-600 font-semibold">
+        ORDER PLACED: {{ orderPlaced }}
       </div>
-      <div class="w-1/2 flex justify-end items-center pr-4">
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">
-          ORDER # {{ orderId }}
-        </div>
+      <div
+        class="text-sm md:text-base text-gray-600 font-semibold mt-4 md:mt-0"
+      >
+        ORDER # {{ orderId }}
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">FOR</div>
-        <div class="text-xl md:text-2xl text-gray-800">{{ customerName }}</div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="text-sm md:text-base text-gray-600 font-semibold">
+        FOR: {{ customerName }}
       </div>
-      <div>
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">TOTAL</div>
-        <div class="text-xl md:text-2xl text-gray-800">
-          {{ currency }}{{ total }}
-        </div>
+      <div class="text-sm md:text-base text-gray-600 font-semibold">
+        TOTAL: {{ currency }}{{ total }}
       </div>
-      <div>
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">REF #</div>
-        <div class="text-xl md:text-2xl text-gray-800">{{ refNo }}</div>
+      <div class="text-sm md:text-base text-gray-600 font-semibold">
+        REF #: {{ refNo }}
       </div>
-      <div>
-        <div class="text-xs md:text-sm text-gray-600 font-semibold">STATUS</div>
-        <div class="text-xl md:text-2xl text-gray-800">{{ status }}</div>
+      <div class="text-sm md:text-base text-gray-600 font-semibold">
+        STATUS: {{ status }}
       </div>
     </div>
   </div>
